@@ -1,134 +1,201 @@
 #!/usr/bin/env python3
 """
-Unit Tests for SimpleCalculator Class
+Library Management System
 Author: Assistant
 Date: June 2025
 
-This module contains comprehensive unit tests to verify the correctness of the 
-SimpleCalculator class methods including edge cases and various scenarios.
+This module implements a Library Management System with Book and Library classes
+for managing book collections, checkouts, and returns.
 """
 
-import unittest
-from simple_calculator import SimpleCalculator
+class Book:
+    """
+    A class representing a book in the library system.
+    
+    Attributes:
+        title (str): The title of the book
+        author (str): The author of the book
+        isbn (str): The ISBN of the book
+        is_checked_out (bool): Whether the book is currently checked out
+    """
+    
+    def __init__(self, title, author, isbn):
+        """
+        Initialize a new book.
+        
+        Args:
+            title (str): The title of the book
+            author (str): The author of the book
+            isbn (str): The ISBN of the book
+        """
+        self.title = title
+        self.author = author
+        self.isbn = isbn
+        self.is_checked_out = False
+    
+    def check_out(self):
+        """
+        Check out the book if it's available.
+        
+        Returns:
+            bool: True if successfully checked out, False if already checked out
+        """
+        if not self.is_checked_out:
+            self.is_checked_out = True
+            return True
+        return False
+    
+    def return_book(self):
+        """
+        Return the book if it's currently checked out.
+        
+        Returns:
+            bool: True if successfully returned, False if not checked out
+        """
+        if self.is_checked_out:
+            self.is_checked_out = False
+            return True
+        return False
+    
+    def __str__(self):
+        """
+        String representation of the book.
+        
+        Returns:
+            str: Formatted string with book information
+        """
+        status = "Checked Out" if self.is_checked_out else "Available"
+        return f"'{self.title}' by {self.author} (ISBN: {self.isbn}) - {status}"
 
 
-class TestSimpleCalculator(unittest.TestCase):
-    """Test class for SimpleCalculator that inherits from unittest.TestCase."""
+class Library:
+    """
+    A class representing a library that manages a collection of books.
     
-    def setUp(self):
-        """Set up the SimpleCalculator instance before each test."""
-        self.calc = SimpleCalculator()
+    Attributes:
+        books (list): List of Book objects in the library
+        name (str): Name of the library
+    """
     
-    def test_addition(self):
-        """Test the addition method."""
-        # Test positive numbers
-        self.assertEqual(self.calc.add(2, 3), 5)
-        self.assertEqual(self.calc.add(10, 5), 15)
+    def __init__(self, name="Library"):
+        """
+        Initialize a new library.
         
-        # Test with zero
-        self.assertEqual(self.calc.add(0, 5), 5)
-        self.assertEqual(self.calc.add(5, 0), 5)
-        self.assertEqual(self.calc.add(0, 0), 0)
-        
-        # Test negative numbers
-        self.assertEqual(self.calc.add(-1, 1), 0)
-        self.assertEqual(self.calc.add(-5, -3), -8)
-        self.assertEqual(self.calc.add(-10, 5), -5)
-        
-        # Test decimal numbers
-        self.assertEqual(self.calc.add(2.5, 3.7), 6.2)
-        self.assertAlmostEqual(self.calc.add(0.1, 0.2), 0.3, places=7)
+        Args:
+            name (str): Name of the library (default: "Library")
+        """
+        self.books = []
+        self.name = name
     
-    def test_subtraction(self):
-        """Test the subtraction method."""
-        # Test positive numbers
-        self.assertEqual(self.calc.subtract(5, 3), 2)
-        self.assertEqual(self.calc.subtract(10, 4), 6)
+    def add_book(self, book):
+        """
+        Add a book to the library collection.
         
-        # Test with zero
-        self.assertEqual(self.calc.subtract(5, 0), 5)
-        self.assertEqual(self.calc.subtract(0, 5), -5)
-        self.assertEqual(self.calc.subtract(0, 0), 0)
-        
-        # Test negative numbers
-        self.assertEqual(self.calc.subtract(-5, -3), -2)
-        self.assertEqual(self.calc.subtract(-5, 3), -8)
-        self.assertEqual(self.calc.subtract(5, -3), 8)
-        
-        # Test decimal numbers
-        self.assertEqual(self.calc.subtract(5.5, 2.3), 3.2)
-        self.assertAlmostEqual(self.calc.subtract(0.3, 0.1), 0.2, places=7)
+        Args:
+            book (Book): The book object to add to the library
+            
+        Returns:
+            bool: True if book was added successfully
+        """
+        if isinstance(book, Book):
+            self.books.append(book)
+            return True
+        return False
     
-    def test_multiplication(self):
-        """Test the multiplication method."""
-        # Test positive numbers
-        self.assertEqual(self.calc.multiply(2, 3), 6)
-        self.assertEqual(self.calc.multiply(4, 5), 20)
+    def check_out_book(self, isbn):
+        """
+        Check out a book by its ISBN.
         
-        # Test with zero
-        self.assertEqual(self.calc.multiply(0, 5), 0)
-        self.assertEqual(self.calc.multiply(5, 0), 0)
-        self.assertEqual(self.calc.multiply(0, 0), 0)
-        
-        # Test with one
-        self.assertEqual(self.calc.multiply(1, 5), 5)
-        self.assertEqual(self.calc.multiply(7, 1), 7)
-        
-        # Test negative numbers
-        self.assertEqual(self.calc.multiply(-2, 3), -6)
-        self.assertEqual(self.calc.multiply(-4, -5), 20)
-        self.assertEqual(self.calc.multiply(6, -2), -12)
-        
-        # Test decimal numbers
-        self.assertEqual(self.calc.multiply(2.5, 4), 10.0)
-        self.assertEqual(self.calc.multiply(1.5, 2.0), 3.0)
+        Args:
+            isbn (str): The ISBN of the book to check out
+            
+        Returns:
+            bool: True if book was successfully checked out, False otherwise
+        """
+        for book in self.books:
+            if book.isbn == isbn and not book.is_checked_out:
+                return book.check_out()
+        return False
     
-    def test_division(self):
-        """Test the division method."""
-        # Test normal division
-        self.assertEqual(self.calc.divide(6, 2), 3.0)
-        self.assertEqual(self.calc.divide(10, 5), 2.0)
-        self.assertEqual(self.calc.divide(15, 3), 5.0)
+    def return_book(self, isbn):
+        """
+        Return a book by its ISBN.
         
-        # Test division resulting in decimal
-        self.assertEqual(self.calc.divide(7, 2), 3.5)
-        self.assertEqual(self.calc.divide(1, 4), 0.25)
-        
-        # Test division with zero numerator
-        self.assertEqual(self.calc.divide(0, 5), 0.0)
-        
-        # Test division by zero (edge case)
-        self.assertIsNone(self.calc.divide(5, 0))
-        self.assertIsNone(self.calc.divide(0, 0))
-        self.assertIsNone(self.calc.divide(-10, 0))
-        
-        # Test negative numbers
-        self.assertEqual(self.calc.divide(-6, 2), -3.0)
-        self.assertEqual(self.calc.divide(-10, -5), 2.0)
-        self.assertEqual(self.calc.divide(8, -4), -2.0)
-        
-        # Test decimal numbers
-        self.assertEqual(self.calc.divide(7.5, 2.5), 3.0)
-        self.assertAlmostEqual(self.calc.divide(1.0, 3.0), 0.3333333333333333, places=7)
+        Args:
+            isbn (str): The ISBN of the book to return
+            
+        Returns:
+            bool: True if book was successfully returned, False otherwise
+        """
+        for book in self.books:
+            if book.isbn == isbn and book.is_checked_out:
+                return book.return_book()
+        return False
     
-    def test_edge_cases_comprehensive(self):
-        """Test comprehensive edge cases for all methods."""
-        # Test very large numbers
-        large_num = 1000000
-        self.assertEqual(self.calc.add(large_num, large_num), 2000000)
-        self.assertEqual(self.calc.multiply(large_num, 2), 2000000)
+    def list_available_books(self):
+        """
+        Get a list of all available (not checked out) books.
         
-        # Test very small decimal numbers
-        small_num = 0.000001
-        self.assertAlmostEqual(self.calc.add(small_num, small_num), 0.000002, places=7)
+        Returns:
+            list: List of Book objects that are available for checkout
+        """
+        available_books = []
+        for book in self.books:
+            if not book.is_checked_out:
+                available_books.append(book)
+        return available_books
+    
+    def list_all_books(self):
+        """
+        Get a list of all books in the library.
         
-        # Test mixed integer and float operations
-        self.assertEqual(self.calc.add(5, 2.5), 7.5)
-        self.assertEqual(self.calc.subtract(10, 3.2), 6.8)
-        self.assertEqual(self.calc.multiply(4, 2.5), 10.0)
-        self.assertEqual(self.calc.divide(9, 2.0), 4.5)
-
-
-if __name__ == '__main__':
-    # Run the unit tests
-    unittest.main()
+        Returns:
+            list: List of all Book objects in the library
+        """
+        return self.books.copy()
+    
+    def find_book_by_title(self, title):
+        """
+        Find books by title (case-insensitive partial match).
+        
+        Args:
+            title (str): The title to search for
+            
+        Returns:
+            list: List of Book objects matching the title
+        """
+        matching_books = []
+        for book in self.books:
+            if title.lower() in book.title.lower():
+                matching_books.append(book)
+        return matching_books
+    
+    def find_book_by_author(self, author):
+        """
+        Find books by author (case-insensitive partial match).
+        
+        Args:
+            author (str): The author to search for
+            
+        Returns:
+            list: List of Book objects by the author
+        """
+        matching_books = []
+        for book in self.books:
+            if author.lower() in book.author.lower():
+                matching_books.append(book)
+        return matching_books
+    
+    def get_library_stats(self):
+        """
+        Get statistics about the library.
+        
+        Returns:
+            dict: Dictionary containing library statistics
+        """
+        total_books = len(self.books)
+        available_books = len(self.list_available_books())
+        checked_out_books = total_books - available_books
+        
+        return {
+            'total_b
