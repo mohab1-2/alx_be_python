@@ -79,16 +79,9 @@ class Library:
             print("No books are currently available.")
     
     def listavailablebooks(self):
-        """Method to list all available books (for testing compatibility)"""
+        """Method to list all available books (returns list for testing)"""
         available_books = [book for book in self.__books if book.is_available()]
         return available_books
-    
-    def get_book_by_title(self, title):
-        """Helper method to get a book by title"""
-        for book in self.__books:
-            if book.title == title:
-                return book
-        return None
 
 
 # Test script (main.py functionality)
