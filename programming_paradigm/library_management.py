@@ -46,6 +46,10 @@ class Library:
         else:
             return "Only Book instances can be added to the library."
     
+    def addbook(self, book):
+        """Alternative method name for adding books"""
+        return self.add_book(book)
+    
     def check_out_book(self, title):
         """Method to check out a book by title"""
         for book in self.__books:
@@ -57,6 +61,10 @@ class Library:
                     return f"'{title}' is already checked out."
         return f"Book '{title}' not found in the library."
     
+    def checkoutbook(self, title):
+        """Alternative method name for checking out books"""
+        return self.check_out_book(title)
+    
     def return_book(self, title):
         """Method to return a book by title"""
         for book in self.__books:
@@ -67,6 +75,10 @@ class Library:
                 else:
                     return f"'{title}' was not checked out."
         return f"Book '{title}' not found in the library."
+    
+    def returnbook(self, title):
+        """Alternative method name for returning books"""
+        return self.return_book(title)
     
     def list_available_books(self):
         """Method to list all available books"""
