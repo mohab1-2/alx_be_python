@@ -47,11 +47,7 @@ class Library:
     
     def listavailablebooks(self):
         """List available books method"""
-        available = []
-        for book in self._books:
-            if book.is_available():
-                available.append(book)
-        return available
+        return [book for book in self._books if book.is_available()]
 
 
 # Test the implementation
