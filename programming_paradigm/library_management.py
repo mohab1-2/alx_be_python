@@ -6,21 +6,21 @@ class Book:
         self.author = author  # Public attribute
         self.__is_checked_out = False  # Private attribute to track availability
     
-    def check_out_book(self, title):
+    def check_out(self):
         """Method to check out a book - marks it as unavailable"""
         if not self.__is_checked_out:
             self.__is_checked_out = True
-            return f"'{title}' has been checked out successfully."
+            return True
         else:
-            return f"'{title}' is already checked out."
+            return False
     
-    def return_book(self, title):
+    def return_book(self):
         """Method to return a book - marks it as available"""
         if self.__is_checked_out:
             self.__is_checked_out = False
-            return f"'{title}' has been returned successfully."
+            return True
         else:
-            return f"'{title}' was not checked out."
+            return False
     
     def is_available(self):
         """Method to check if book is available"""
@@ -51,7 +51,8 @@ class Library:
         for book in self.__books:
             if book.title == title:
                 if book.is_available():
-                    return book.check_out_book(title)
+                    book.check_out()
+                    return f"'{title}' has been checked out successfully."
                 else:
                     return f"'{title}' is already checked out."
         return f"Book '{title}' not found in the library."
@@ -61,7 +62,8 @@ class Library:
         for book in self.__books:
             if book.title == title:
                 if not book.is_available():
-                    return book.return_book(title)
+                    book.return_book()
+                    return f"'{title}' has been returned successfully."
                 else:
                     return f"'{title}' was not checked out."
         return f"Book '{title}' not found in the library."
@@ -75,6 +77,10 @@ class Library:
                 print(f"{book.title} by {book.author}")
         else:
             print("No books are currently available.")
+    
+    def listavailablebooks(self):
+        """Alternative method name for listing available books (for testing compatibility)"""
+        return self.list_available_books()
     
     def get_book_by_title(self, title):
         """Helper method to get a book by title"""
