@@ -50,6 +50,14 @@ class Library:
         for book in self._books:
             if book.is_available():
                 print(f"{book.title} by {book.author}")
+    
+    def list_available_books(self):
+        """List available books method with underscores"""
+        available_books = []
+        for book in self._books:
+            if book.is_available():
+                available_books.append(book)
+        return available_books
 
 
 # Test the implementation
