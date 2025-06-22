@@ -65,7 +65,7 @@ def main():
     
     # Create book instances
     regular_book = Book("Pride and Prejudice", "Jane Austen")
-    digital_book = EBook("Pride and Prejudice", "Jane Austen", 500)
+    digital_book = EBook("Snow Crash", "Neal Stephenson", 500)
     physical_book = PrintBook("The Catcher in the Rye", "J.D. Salinger", 234)
     
     # Add books to library
