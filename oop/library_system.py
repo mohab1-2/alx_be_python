@@ -51,4 +51,4 @@ class Library:
     def list_books(self):
         """Print details of each book in the library."""
         for book in self.books:
-            print(str(book))
+            print(book)
