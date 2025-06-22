@@ -52,3 +52,22 @@ class Library:
         """Print details of each book in the library."""
         for book in self.books:
             print(book)
+
+
+# Test the implementation
+if __name__ == "__main__":
+    # Create library
+    library = Library()
+    
+    # Create books
+    book1 = Book("Pride and Prejudice", "Jane Austen")
+    ebook1 = EBook("Pride and Prejudice", "Jane Austen", 500)
+    printbook1 = PrintBook("The Catcher in the Rye", "J.D. Salinger", 234)
+    
+    # Add books to library
+    library.add_book(book1)
+    library.add_book(ebook1)
+    library.add_book(printbook1)
+    
+    # List all books
+    library.list_books()
