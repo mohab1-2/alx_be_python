@@ -76,6 +76,6 @@ def main():
     # Display all books
     my_library.list_books()
 
-
+# Adjust the expected output if needed
 if __name__ == "__main__":
     main()
