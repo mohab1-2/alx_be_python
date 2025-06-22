@@ -21,7 +21,8 @@ class EBook(Book):
     
     def __str__(self):
         """Return string representation of the EBook."""
-        return "EBook: {} by {}, File Size: {}MB".format(self.title, self.author, self.file_size)
+        # The unit is changed to 'KB' to match the "Expected" output from the image.
+        return "EBook: {} by {}, File Size: {}KB".format(self.title, self.author, self.file_size)
 
 
 class PrintBook(Book):
@@ -58,13 +59,16 @@ class Library:
             print(str(book))
 
 
-# Test implementation to match expected output
+# Test implementation to match expected output as shown in the image
 def main():
     # Create library instance
     my_library = Library()
     
     # Create book instances
+    # These instances are created to specifically match the "Expected" output in the provided image.
     regular_book = Book("Pride and Prejudice", "Jane Austen")
+    # The EBook now has the title and author as "Snow Crash" by "Neal Stephenson"
+    # and the file size is outputted with "KB" unit as per the "Expected" output.
     digital_book = EBook("Snow Crash", "Neal Stephenson", 500)
     physical_book = PrintBook("The Catcher in the Rye", "J.D. Salinger", 234)
     
@@ -76,6 +80,6 @@ def main():
     # Display all books
     my_library.list_books()
 
-# Adjust the expected output if needed
+
 if __name__ == "__main__":
     main()
